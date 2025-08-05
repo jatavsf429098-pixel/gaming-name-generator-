@@ -1,16 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Gaming Name Generator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaming Name Generator</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 30px; background-color: #111; color: #fff; }
+    h1 { font-size: 2rem; margin-bottom: 20px; }
+    button { padding: 10px 20px; margin: 10px; border: none; border-radius: 5px; background: #4caf50; color: white; cursor: pointer; }
+    .output { margin-top: 20px; font-size: 1.2rem; padding: 10px; background-color: #222; border-radius: 10px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Gaming Name Generator</h1>
-        <button onclick="generateName()">Generate Name</button>
-        <p id="nameDisplay"></p>
-    </div>
-    <script src="script.js"></script>
+  <h1>Gaming Name, Title & Description Generator</h1>
+
+  <button onclick="generateName()">🎮 Generate Gaming Name</button>
+  <div class="output" id="nameOutput"></div>
+
+  <button onclick="generateTitle()">🏷️ Generate Gaming Title</button>
+  <div class="output" id="titleOutput"></div>
+
+  <button onclick="generateDescription()">📝 Generate Gaming Description</button>
+  <div class="output" id="descOutput"></div>
+
+  <script>
+    const names = [
+      "ShadowSniper", "GhostHunter", "NinjaX", "ProDestroyer", "FunnyGamer007",
+      "LaughingAssassin", "FireFury", "XxNoobMasterxX", "SilentBullet", "CrazyChamp"
+    ];
+
+    const titles = [
+      "The Fearless Phantom", "Silent Storm", "Destroyer of Noobs", "King of Chaos", "The Laughing Warrior",
+      "Unstoppable Headshotter", "Master of Stealth", "The Comic Conqueror", "Dark Avenger", "Pixel Punisher"
+    ];
+
+    const descriptions = [
+      "A fearless warrior of the underworld who never backs down from a fight.",
+      "The funniest fighter who kills enemies with both bullets and jokes.",
+      "Silent but deadly, this gamer rules the battlefield without a word.",
+      "An unstoppable storm in the gaming world, feared by noobs and pros alike.",
+      "Always laughing, always killing — the clown of carnage."
+    ];
+
+    function generateName() {
+      const random = names[Math.floor(Math.random() * names.length)];
+      document.getElementById("nameOutput").innerText = random;
+    }
+
+    function generateTitle() {
+      const random = titles[Math.floor(Math.random() * titles.length)];
+      document.getElementById("titleOutput").innerText = random;
+    }
+
+    function generateDescription() {
+      const random = descriptions[Math.floor(Math.random() * descriptions.length)];
+      document.getElementById("descOutput").innerText = random;
+    }
+  </script>
 </body>
 </html>

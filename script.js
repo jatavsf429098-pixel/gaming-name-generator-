@@ -38,3 +38,36 @@ function generateDescription() {
   const random = descriptions[Math.floor(Math.random() * descriptions.length)];
   document.getElementById("descOutput").innerText = random;
 }
+function generateGameContent() {
+  const game = document.getElementById("gameInput").value.trim();
+  if (!game) return alert("कृपया कोई गेम नाम लिखें");
+
+  const title = `🔥 Ultimate ${game} Warrior`;
+  const description = `🎮 ${game} की दुनिया में ये खिलाड़ी सबसे ऊपर है। इसकी रणनीति और स्किल से हर कोई डरता है। हर मिशन में ये जीत हासिल करता है और लीडरबोर्ड पर टॉप पर रहता है।`;
+
+  const output = `🎮 गेम: ${game}\n🏷️ टाइटल: ${title}\n📝 डिस्क्रिप्शन: ${description}`;
+  document.getElementById("generatedOutput").innerText = output;
+}
+
+function copyContent() {
+  const text = document.getElementById("generatedOutput").innerText;
+  navigator.clipboard.writeText(text).then(() => alert("कॉपी हो गया!"));
+}
+
+function downloadContent() {
+  const text = document.getElementById("generatedOutput").innerText;
+  const blob = new Blob([text], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "game-info.txt";
+  link.click();
+}
+
+function shareContent() {
+  const text = document.getElementById("generatedOutput").innerText;
+  if (navigator.share) {
+    navigator.share({ title: "Game Info", text });
+  } else {
+    alert("शेयर फीचर इस डिवाइस में सपोर्ट नहीं करता।");
+  }
+}

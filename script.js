@@ -1,57 +1,36 @@
-const names = [
-  "ShadowSniper", "GhostHunter", "NinjaX", "ProDestroyer", "FunnyGamer007",
-  "LaughingAssassin", "FireFury", "XxNoobMasterxX", "SilentBullet", "CrazyChamp"
-];
-
-const titles = [
-  "The Unstoppable Legend of the Battle Arena",
-  "The Silent Hunter Who Owns the Shadows",
-  "Mastermind Behind Every Victory",
-  "The Ultimate Gamer of Destruction and Glory",
-  "The One-Man Army in Virtual Warfare",
-  "Gaming's Most Feared Name of 2025",
-  "Conqueror of Noob Lands and Pro Realms",
-  "Champion of Chaos with a Joystick",
-  "God of Headshots and Critical Kills",
-  "The Phantom King of Virtual Worlds"
-];
-
+const names = ["ShadowSniper", "NinjaX", "FireFury"];
+const titles = ["Mastermind of Victory", "Conqueror of Chaos"];
 const descriptions = [
-  "This legendary gamer is feared across every multiplayer arena for their incredible precision, unbeatable strategies, and fearless gameplay. Wherever they go, chaos follows — and enemies fall.",
-  "With unmatched skills and lightning-fast reflexes, this player dominates every game. Their name is etched into the scoreboard, and their presence alone sends enemies running.",
-  "Known for turning every mission into a massacre, this gamer plays with deadly focus and tactical brilliance. Their style is fast, furious, and always entertaining.",
-  "They laugh in the face of danger, troll their enemies with flair, and still finish top of the leaderboard — a deadly mix of humor and headshots.",
-  "Not just a gamer — a myth, a legend, and a force of destruction. Their loadout is fire, aim is godlike, and mind is unbeatable. Watch out, they’re online."
+  "This gamer dominates with unmatched reflexes and tactics.",
+  "Feared and respected across all battlegrounds."
+];
+const thumbnails = [
+  "🔥 Fire background with gamer name in bold red.",
+  "👑 Crown over joystick with stars and skulls.",
+  "💥 Exploding background with tagline."
 ];
 
-function generateName() {
-  const random = names[Math.floor(Math.random() * names.length)];
-  document.getElementById("nameOutput").innerText = random;
-}
-
-function generateTitle() {
-  const random = titles[Math.floor(Math.random() * titles.length)];
-  document.getElementById("titleOutput").innerText = random;
-}
-
-function generateDescription() {
-  const random = descriptions[Math.floor(Math.random() * descriptions.length)];
-  document.getElementById("descOutput").innerText = random;
-}
 function generateGameContent() {
   const game = document.getElementById("gameInput").value.trim();
-  if (!game) return alert("कृपया कोई गेम नाम लिखें");
+  if (!game) return alert("Please enter a game name!");
 
-  const title = `🔥 Ultimate ${game} Warrior`;
-  const description = `🎮 ${game} की दुनिया में ये खिलाड़ी सबसे ऊपर है। इसकी रणनीति और स्किल से हर कोई डरता है। हर मिशन में ये जीत हासिल करता है और लीडरबोर्ड पर टॉप पर रहता है।`;
+  const name = names[Math.floor(Math.random() * names.length)];
+  const title = titles[Math.floor(Math.random() * titles.length)];
+  const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
 
-  const output = `🎮 गेम: ${game}\n🏷️ टाइटल: ${title}\n📝 डिस्क्रिप्शन: ${description}`;
-  document.getElementById("generatedOutput").innerText = output;
+  const result = `🎮 Game: ${game}\n👤 Name: ${name}\n🏷️ Title: ${title}\n📝 Description: ${desc}`;
+  document.getElementById("generatedOutput").innerText = result;
+
+  // Add to history
+  const history = document.getElementById("historyOutput");
+  const entry = document.createElement("p");
+  entry.textContent = result;
+  history.appendChild(entry);
 }
 
 function copyContent() {
   const text = document.getElementById("generatedOutput").innerText;
-  navigator.clipboard.writeText(text).then(() => alert("कॉपी हो गया!"));
+  navigator.clipboard.writeText(text).then(() => alert("Copied!"));
 }
 
 function downloadContent() {
@@ -59,15 +38,43 @@ function downloadContent() {
   const blob = new Blob([text], { type: "text/plain" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "game-info.txt";
+  link.download = "gaming-content.txt";
   link.click();
 }
 
 function shareContent() {
   const text = document.getElementById("generatedOutput").innerText;
   if (navigator.share) {
-    navigator.share({ title: "Game Info", text });
+    navigator.share({ title: "Gaming Content", text });
   } else {
-    alert("शेयर फीचर इस डिवाइस में सपोर्ट नहीं करता।");
+    alert("Sharing not supported on this browser.");
   }
+}
+
+function showSuggestions() {
+  const input = document.getElementById("gameInput").value.toLowerCase();
+  const suggestions = ["Free Fire", "PUBG", "Call of Duty", "Valorant", "Minecraft"];
+  const matched = suggestions.filter(g => g.toLowerCase().includes(input));
+
+  const box = document.getElementById("suggestionBox");
+  box.innerHTML = "";
+  matched.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    li.onclick = () => {
+      document.getElementById("gameInput").value = item;
+      box.innerHTML = "";
+    };
+    box.appendChild(li);
+  });
+}
+
+function generateThumbnail() {
+  const idea = thumbnails[Math.floor(Math.random() * thumbnails.length)];
+  document.getElementById("thumbnailIdea").innerText = idea;
+}
+
+function changeLang(lang) {
+  document.getElementById("searchLabel").innerText =
+    lang === "hi" ? "🔍 अपना गेम नाम लिखें" : "🔍 Enter Game Name";
 }

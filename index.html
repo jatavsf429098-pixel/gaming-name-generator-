@@ -3,77 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaming Generator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #1f1c2c, #928dab);
-      color: white;
-      text-align: center;
-    }
-    h1, h2 { margin-bottom: 10px; }
-    input, button, select {
-      padding: 10px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    input { width: 80%; max-width: 400px; }
-    button { background-color: #28a745; color: white; cursor: pointer; }
-    button:hover { background-color: #218838; }
-    .output, .history, .thumbnail, .contact {
-      background: rgba(0, 0, 0, 0.4);
-      padding: 15px;
-      margin: 15px auto;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 600px;
-      word-wrap: break-word;
-    }
-    ul { text-align: left; padding-left: 20px; }
-    #suggestionBox li:hover { cursor: pointer; background: #333; }
-    @media (max-width: 600px) {
-      input, button { width: 90%; }
-    }
-  </style>
+  <meta name="description" content="Generate gaming names, titles, descriptions, tags, and thumbnails. Download videos from YouTube, Instagram & Pinterest." />
+  <meta name="keywords" content="gaming name generator, video downloader, gaming tags, title generator, description AI, YouTube downloader, Instagram video download, gaming website" />
+  <meta name="author" content="YourName" />
+  <title>🎮 Ultimate Gaming Content Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" />
 </head>
 <body>
+  <header>
+    <h1>🎮 Ultimate Gaming Content Generator</h1>
+    <p>AI Powered Name, Title, Description, Tag & Video Tool</p>
+    <select onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+    </select>
+    <button onclick="toggleDarkMode()">🌓 Theme</button>
+  </header>
 
-  <h1>🎮 Gaming Generator (English / हिंदी)</h1>
-  <select onchange="changeLang(this.value)">
-    <option value="en">English</option>
-    <option value="hi">हिंदी</option>
-  </select>
+  <main>
+    <section class="generator-box">
+      <h2>🔍 Type Your Game Name</h2>
+      <input type="text" id="gameInput" placeholder="Enter any game name..." oninput="showSuggestions()" autocomplete="off" />
+      <ul id="suggestionBox"></ul>
+      <button onclick="generateGameContent()">🚀 Generate All</button>
 
-  <h2 id="searchLabel">🔍 Enter Game Name</h2>
-  <input type="text" id="gameInput" placeholder="Enter game name..." oninput="showSuggestions()" autocomplete="off" />
-  <ul id="suggestionBox" style="list-style:none;"></ul>
+      <div class="output-box">
+        <h3>🎮 Game Name:</h3>
+        <div id="nameOutput"></div>
+        <h3>🏷️ Title:</h3>
+        <div id="titleOutput"></div>
+        <h3>📝 Description:</h3>
+        <div id="descOutput"></div>
+        <h3>🏷️ Tags:</h3>
+        <div id="tagOutput"></div>
+        <h3>📸 Thumbnail Idea:</h3>
+        <div id="thumbOutput"></div>
+      </div>
 
-  <button onclick="generateGameContent()">🎯 Generate</button>
-  <div class="output" id="generatedOutput"></div>
+      <div class="btn-group">
+        <button onclick="copyContent()">📋 Copy</button>
+        <button onclick="downloadContent()">📥 Download</button>
+        <button onclick="shareContent()">🔗 Share</button>
+      </div>
 
-  <button onclick="copyContent()">📋 Copy</button>
-  <button onclick="downloadContent()">📥 Download</button>
-  <button onclick="shareContent()">🔗 Share</button>
+      <div class="history">
+        <h3>📂 History (Last 5)</h3>
+        <ul id="historyList"></ul>
+      </div>
+    </section>
 
-  <div class="history" id="historyOutput"><h3>📜 History</h3></div>
+    <section class="downloader-box">
+      <h2>📥 Video Downloader</h2>
+      <input type="text" id="videoUrl" placeholder="Paste YouTube / Instagram / Pinterest Link..." />
+      <button onclick="downloadVideo()">⬇️ Download</button>
+      <p class="note">*Download feature under development*</p>
+    </section>
 
-  <div class="thumbnail" id="thumbnailBox">
-    <h3>🖼 Thumbnail Idea Generator</h3>
-    <button onclick="generateThumbnail()">🔄 Generate Idea</button>
-    <p id="thumbnailIdea"></p>
-  </div>
+    <section class="contact-form">
+      <h2>📬 Contact Us</h2>
+      <form onsubmit="submitContact(event)">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">📨 Send</button>
+      </form>
+    </section>
+  </main>
 
-  <div class="contact">
-    <h3>📩 Contact Us</h3>
-    <input type="text" placeholder="Your Name" /><br/>
-    <input type="email" placeholder="Your Email" /><br/>
-    <textarea placeholder="Your Message" rows="4" style="width:90%;padding:10px;"></textarea><br/>
-    <button>Send</button>
-  </div>
+  <footer>
+    <p>&copy; 2025 YourWebsite | Made for Gamers 💥</p>
+    <div class="socials">
+      <a href="#">YouTube</a>
+      <a href="#">Instagram</a>
+      <a href="#">GitHub</a>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

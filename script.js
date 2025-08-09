@@ -1,112 +1,119 @@
-const names = ["ShadowSniper", "GhostHunter", "NinjaX", "ProDestroyer", "FireFury", "NoobMasterX", "DeadlyDuo", "CyberRanger", "SniperQueen", "ZombieCrush"];
-const titles = ["The Silent Avenger", "Master of Mayhem", "Destroyer of Worlds", "Fearless Legend", "The Ultimate Warrior", "Noob Slayer", "Bullet Whisperer"];
-const descriptions = [
-  "A stealthy shadow in the battlefield, feared by all.",
-  "Master of close-range chaos, always on top.",
-  "Strikes fast and disappears faster. Never seen, always felt.",
-  "Brings destruction with style and humor.",
-  "An unstoppable gamer with an unbeatable strategy."
+// TOOL DATA
+const tools = [
+  {
+    title: "Esports Team Name Ideas",
+    desc: "Generate catchy names for pro gaming teams.",
+    icon: "fa-bolt",
+    category: "name",
+    link: "https://www.spinxo.com/"
+  },
+  {
+    title: "Streamer Username Generator",
+    desc: "Create unique streaming usernames.",
+    icon: "fa-video",
+    category: "name",
+    link: "https://www.namegeneratorfun.com/gaming"
+  },
+  {
+    title: "Cool Font Name Generator",
+    desc: "Turn names into stylish fonts.",
+    icon: "fa-font",
+    category: "name",
+    link: "https://coolfontsgenerator.com/"
+  },
+  {
+    title: "AI Profile Picture Generator",
+    desc: "Create an AI-generated gaming profile pic.",
+    icon: "fa-robot",
+    category: "avatar",
+    link: "https://nickerly.com/"
+  },
+  {
+    title: "Live Esports Match Tracker",
+    desc: "View live scores and stats.",
+    icon: "fa-trophy",
+    category: "stats",
+    link: "https://www.progametools.com/"
+  },
+  {
+    title: "Gaming Meme Generator",
+    desc: "Make hilarious gaming memes.",
+    icon: "fa-laugh-beam",
+    category: "utility",
+    link: "https://coolsymbol.com/"
+  },
+  {
+    title: "Global Gaming Chatroom",
+    desc: "Chat with gamers worldwide.",
+    icon: "fa-comments",
+    category: "community",
+    link: "https://discord.com"
+  },
+  {
+    title: "AI Voice Pack Generator",
+    desc: "Custom voices for stream alerts.",
+    icon: "fa-microphone",
+    category: "bonus",
+    link: "https://nickerly.com/"
+  }
 ];
-const tagsList = ["gamer", "gaming", "pro", "shooter", "survivor", "fps", "battle", "multiplayer", "action", "strategy"];
-const thumbnails = [
-  "Fire blazing skull with gaming headset",
-  "Animated soldier aiming sniper",
-  "Dark forest with glowing eyes",
-  "Retro arcade theme background",
-  "Pixelated battleground chaos"
-];
 
-function generateGameContent() {
-  const game = document.getElementById("gameInput").value.trim();
-  if (!game) return alert("Please enter a game name!");
-  const name = names[Math.floor(Math.random() * names.length)];
-  const title = titles[Math.floor(Math.random() * titles.length)];
-  const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
-  const tags = shuffle(tagsList).slice(0, 5).join(", ");
-  const thumb = thumbnails[Math.floor(Math.random() * thumbnails.length)];
+// RENDER TOOL CARDS
+const container = document.getElementById("toolContainer");
+tools.forEach(t => {
+  const card = document.createElement("div");
+  card.classList.add("tool-card");
+  card.setAttribute("data-category", t.category);
+  card.innerHTML = `
+    <i class="fas ${t.icon}"></i>
+    <h3>${t.title}</h3>
+    <p>${t.desc}</p>
+    <a href="${t.link}" target="_blank" class="btn">Open Tool</a>
+  `;
+  container.appendChild(card);
+});
 
-  document.getElementById("nameOutput").innerText = name;
-  document.getElementById("titleOutput").innerText = title;
-  document.getElementById("descOutput").innerText = desc;
-  document.getElementById("tagOutput").innerText = tags;
-  document.getElementById("thumbOutput").innerText = thumb;
-
-  updateHistory(game);
-}
-
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function copyContent() {
-  const all = `Name: ${nameOutput.innerText}\nTitle: ${titleOutput.innerText}\nDescription: ${descOutput.innerText}\nTags: ${tagOutput.innerText}\nThumbnail: ${thumbOutput.innerText}`;
-  navigator.clipboard.writeText(all).then(() => alert("Copied!"));
-}
-
-function downloadContent() {
-  const all = `Name: ${nameOutput.innerText}\nTitle: ${titleOutput.innerText}\nDescription: ${descOutput.innerText}\nTags: ${tagOutput.innerText}\nThumbnail: ${thumbOutput.innerText}`;
-  const blob = new Blob([all], { type: 'text/plain' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'gaming-content.txt';
-  link.click();
-}
-
-function shareContent() {
-  const all = `Name: ${nameOutput.innerText}\nTitle: ${titleOutput.innerText}\nDescription: ${descOutput.innerText}`;
-  if (navigator.share) {
-    navigator.share({ title: "Gaming Content", text: all });
-  } else {
-    alert("Share not supported!");
-  }
-}
-
-function updateHistory(game) {
-  const historyList = document.getElementById("historyList");
-  const entry = document.createElement("li");
-  entry.innerText = game;
-  historyList.prepend(entry);
-  while (historyList.childElementCount > 5) {
-    historyList.removeChild(historyList.lastChild);
-  }
-}
-
-function showSuggestions() {
-  const input = document.getElementById("gameInput").value.toLowerCase();
-  const box = document.getElementById("suggestionBox");
-  box.innerHTML = "";
-  if (!input) return;
-  const filtered = names.filter(n => n.toLowerCase().includes(input));
-  filtered.forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = item;
-    li.onclick = () => {
-      document.getElementById("gameInput").value = item;
-      box.innerHTML = "";
-    };
-    box.appendChild(li);
+// CATEGORY FILTER
+document.querySelectorAll("nav li").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelector("nav li.active").classList.remove("active");
+    btn.classList.add("active");
+    const cat = btn.getAttribute("data-category");
+    document.querySelectorAll(".tool-card").forEach(card => {
+      card.style.display = (cat === "all" || card.getAttribute("data-category") === cat) ? "block" : "none";
+    });
   });
+});
+
+// SEARCH FILTER
+document.getElementById("searchInput").addEventListener("keyup", e => {
+  const term = e.target.value.toLowerCase();
+  document.querySelectorAll(".tool-card").forEach(card => {
+    const text = card.innerText.toLowerCase();
+    card.style.display = text.includes(term) ? "block" : "none";
+  });
+});
+
+// MODAL FUNCTIONALITY FOR BUILT-IN TOOLS
+function openBuiltIn(tool) {
+  document.getElementById("modal").style.display = "block";
+  if (tool === "name-generator") {
+    document.getElementById("modalBody").innerHTML = `
+      <h2>Gaming Name Generator</h2>
+      <button onclick="generateName()">Generate Name</button>
+      <p id="generatedName" style="margin-top:10px;color:#0ff;font-weight:bold;"></p>
+    `;
+  }
 }
 
-function downloadVideo() {
-  const url = document.getElementById("videoUrl").value;
-  if (!url) return alert("Paste a video link!");
-  alert("This feature requires backend or external API integration.");
+function generateName() {
+  const names = ["ShadowNova", "PixelPhantom", "VortexWolf", "BlazeReaper", "CyberKnight", "NeonSpectre"];
+  document.getElementById("generatedName").innerText = names[Math.floor(Math.random() * names.length)];
 }
 
-function changeLanguage(lang) {
-  alert("Language switch feature coming soon!");
-}
-
-function toggleDarkMode() {
-  document.body.classList.toggle("dark-mode");
-}
-
-function submitContact(event) {
-  event.preventDefault();
-  alert("Thanks for contacting us! We’ll reply soon.");
-}
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("modal").style.display = "none";
+};
+window.onclick = e => {
+  if (e.target == document.getElementById("modal")) document.getElementById("modal").style.display = "none";
+};

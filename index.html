@@ -1,87 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Generate gaming names, titles, descriptions, tags, and thumbnails. Download videos from YouTube, Instagram & Pinterest." />
-  <meta name="keywords" content="gaming name generator, video downloader, gaming tags, title generator, description AI, YouTube downloader, Instagram video download, gaming website" />
-  <meta name="author" content="YourName" />
-  <title>🎮 Ultimate Gaming Content Generator</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Gaming Tools Mega Hub - The ultimate collection of gamer utilities, name generators, avatars, stats, and community features.">
+<meta name="keywords" content="gaming tools, name generator, clan names, gamer utilities, esports, avatars, stream overlays, cheat codes, game stats">
+<title>🎮 Gaming Tools Mega Hub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>🎮 Ultimate Gaming Content Generator</h1>
-    <p>AI Powered Name, Title, Description, Tag & Video Tool</p>
-    <select onchange="changeLanguage(this.value)">
-      <option value="en">English</option>
-      <option value="hi">हिन्दी</option>
-      <option value="es">Español</option>
-      <option value="fr">Français</option>
-    </select>
-    <button onclick="toggleDarkMode()">🌓 Theme</button>
-  </header>
 
-  <main>
-    <section class="generator-box">
-      <h2>🔍 Type Your Game Name</h2>
-      <input type="text" id="gameInput" placeholder="Enter any game name..." oninput="showSuggestions()" autocomplete="off" />
-      <ul id="suggestionBox"></ul>
-      <button onclick="generateGameContent()">🚀 Generate All</button>
+<header>
+  <h1>🎮 Gaming Tools Mega Hub</h1>
+  <input type="text" id="searchInput" placeholder="Search tools...">
+</header>
 
-      <div class="output-box">
-        <h3>🎮 Game Name:</h3>
-        <div id="nameOutput"></div>
-        <h3>🏷️ Title:</h3>
-        <div id="titleOutput"></div>
-        <h3>📝 Description:</h3>
-        <div id="descOutput"></div>
-        <h3>🏷️ Tags:</h3>
-        <div id="tagOutput"></div>
-        <h3>📸 Thumbnail Idea:</h3>
-        <div id="thumbOutput"></div>
-      </div>
+<nav>
+  <ul>
+    <li data-category="all" class="active">All</li>
+    <li data-category="name">Gaming Name & Identity</li>
+    <li data-category="avatar">Avatar & Design</li>
+    <li data-category="stats">Game Stats & Tools</li>
+    <li data-category="utility">Utility & Fun</li>
+    <li data-category="community">Community & Social</li>
+    <li data-category="bonus">Bonus</li>
+  </ul>
+</nav>
 
-      <div class="btn-group">
-        <button onclick="copyContent()">📋 Copy</button>
-        <button onclick="downloadContent()">📥 Download</button>
-        <button onclick="shareContent()">🔗 Share</button>
-      </div>
+<main id="toolContainer">
+  
+  <!-- Example Built-in Tool Card -->
+  <div class="tool-card" data-category="name">
+    <i class="fas fa-gamepad"></i>
+    <h3>Gaming Name Generator</h3>
+    <p>Generate random and themed gamer tags instantly.</p>
+    <button onclick="openBuiltIn('name-generator')">Open Tool</button>
+  </div>
 
-      <div class="history">
-        <h3>📂 History (Last 5)</h3>
-        <ul id="historyList"></ul>
-      </div>
-    </section>
+  <!-- Example External Tool Card -->
+  <div class="tool-card" data-category="name">
+    <i class="fas fa-users"></i>
+    <h3>Clan/Team Name Ideas</h3>
+    <p>Find creative clan & esports team name inspiration.</p>
+    <a href="https://fantasynamegenerators.com/" target="_blank" class="btn">Open Tool</a>
+  </div>
 
-    <section class="downloader-box">
-      <h2>📥 Video Downloader</h2>
-      <input type="text" id="videoUrl" placeholder="Paste YouTube / Instagram / Pinterest Link..." />
-      <button onclick="downloadVideo()">⬇️ Download</button>
-      <p class="note">*Download feature under development*</p>
-    </section>
+  <!-- JS will populate all other cards dynamically -->
 
-    <section class="contact-form">
-      <h2>📬 Contact Us</h2>
-      <form onsubmit="submitContact(event)">
-        <input type="text" placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">📨 Send</button>
-      </form>
-    </section>
-  </main>
+</main>
 
-  <footer>
-    <p>&copy; 2025 YourWebsite | Made for Gamers 💥</p>
-    <div class="socials">
-      <a href="#">YouTube</a>
-      <a href="#">Instagram</a>
-      <a href="#">GitHub</a>
-    </div>
-  </footer>
+<!-- Built-in Tool Modals -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
 
-  <script src="script.js"></script>
+<footer>
+  <p>© 2025 Gaming Tools Mega Hub | Designed for Gamers by Gamers</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

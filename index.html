@@ -1,67 +1,583 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gaming Tools Mega Hub - The ultimate collection of gamer utilities, name generators, avatars, stats, and community features.">
-<meta name="keywords" content="gaming tools, name generator, clan names, gamer utilities, esports, avatars, stream overlays, cheat codes, game stats">
-<title>🎮 Gaming Tools Mega Hub</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Gaming Tools Mega Hub — name generators, avatar makers, utilities and community features for gamers. Ready for GitHub Pages.">
+  <meta name="keywords" content="gaming tools, name generator, avatar maker, gamer tag checker, stream overlay, game tools, esports">
+  <title>Gaming Tools Mega Hub</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2d9c6f4b9.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg:#0b0f17; --card:#0f1720; --muted:#9aa4b2; --accent:#00f0ff; --accent2:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:radial-gradient(ellipse at 20% 10%, rgba(124,58,237,0.08), transparent 10%), linear-gradient(180deg,#06080c 0%, #071021 100%); color:#dfe7ee; -webkit-font-smoothing:antialiased;
+    }
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(6px)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:#04111a;font-weight:800;font-family:Orbitron}
+    .title{font-family:Orbitron;font-weight:700;letter-spacing:0.6px}
+    .subtitle{font-size:12px;color:var(--muted)}
+
+    nav{display:flex;gap:12px;align-items:center}
+    .nav-btn{background:transparent;border:0;color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer;transition:all .18s}
+    .nav-btn:hover{color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,240,255,0.06),0 2px 8px rgba(124,58,237,0.04)}
+
+    /* Layout */
+    .container{max-width:1200px;margin:28px auto;padding:0 20px}
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+
+    .searchbar{display:flex;gap:10px;align-items:center}
+    .searchbar input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none}
+    .select{padding:10px;border-radius:12px;background:var(--card);border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+    .tool-card{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.03);transition:transform .18s,box-shadow .18s}
+    .tool-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(2,6,23,0.6)}
+    .tool-head{display:flex;gap:12px;align-items:center}
+    .tool-icon{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg, rgba(0,240,255,0.08), rgba(124,58,237,0.06));display:flex;align-items:center;justify-content:center;font-size:22px}
+    .tool-title{font-weight:700}
+    .tool-desc{font-size:13px;color:var(--muted);margin-top:6px}
+    .tool-actions{display:flex;gap:8px;margin-top:12px}
+    .btn{padding:10px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#04111a;font-weight:700;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* Sidebar widgets */
+    .sidebar .mini{display:flex;flex-direction:column;gap:12px}
+    .small-stat{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(3,6,12,0.6),rgba(3,6,12,0.8));z-index:60}
+    .modal.show{display:flex}
+    .modal .panel{width:920px;max-width:96%;background:linear-gradient(180deg,#07101a, #0d151a);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.04)}
+
+    /* Responsive */
+    @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr 300px}}
+    @media (max-width:700px){header{flex-direction:column;gap:8px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.nav-btn{display:none}.sidebar{order:3}}
+
+    /* Neon link */
+    a.neon{color:var(--accent);text-decoration:none}
+
+    /* small interactions */
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px}
+
+    /* Cursor custom preview */
+    .cursor-sample{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#001;}
+
+    /* Footer */
+    footer{text-align:center;padding:24px;color:var(--muted);font-size:13px;margin-top:28px}
+
+    /* tiny animations */
+    .pulse{animation:pulse 2s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,240,255,0.1)}50%{box-shadow:0 0 40px 6px rgba(124,58,237,0.04)}100%{box-shadow:0 0 0 0 rgba(0,240,255,0.01)}}
+
+  </style>
 </head>
 <body>
+  <header>
+    <div class="brand">
+      <div class="logo">GT</div>
+      <div>
+        <div class="title">Gaming Tools Mega Hub</div>
+        <div class="subtitle">Names, avatars, overlays & community — all in one place</div>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn" data-filter="all"><i class="fa-solid fa-th-large"></i> All</button>
+      <button class="nav-btn" data-filter="names"><i class="fa-solid fa-user"></i> Names</button>
+      <button class="nav-btn" data-filter="avatar"><i class="fa-solid fa-image"></i> Avatar</button>
+      <button class="nav-btn" data-filter="stats"><i class="fa-solid fa-chart-line"></i> Stats</button>
+      <button class="nav-btn" data-filter="fun"><i class="fa-solid fa-dice"></i> Fun</button>
+      <button class="nav-btn" id="open-external-list" title="Open external integrations">External</button>
+    </nav>
+  </header>
 
-<header>
-  <h1>🎮 Gaming Tools Mega Hub</h1>
-  <input type="text" id="searchInput" placeholder="Search tools...">
-</header>
+  <main class="container">
+    <div class="hero">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h2 style="margin:0">Explore tools</h2>
+            <div class="subtitle">Search, filter and open built-in tools or external integrations</div>
+          </div>
+          <div style="text-align:right">
+            <div class="chip"><i class="fa-solid fa-meteor"></i> Neon UI • Dark Mode</div>
+          </div>
+        </div>
 
-<nav>
-  <ul>
-    <li data-category="all" class="active">All</li>
-    <li data-category="name">Gaming Name & Identity</li>
-    <li data-category="avatar">Avatar & Design</li>
-    <li data-category="stats">Game Stats & Tools</li>
-    <li data-category="utility">Utility & Fun</li>
-    <li data-category="community">Community & Social</li>
-    <li data-category="bonus">Bonus</li>
-  </ul>
-</nav>
+        <div style="margin-top:14px" class="searchbar">
+          <input id="search" placeholder="Search tools, e.g. 'avatar', 'name', 'ping'">
+          <select id="category" class="select">
+            <option value="all">All categories</option>
+            <option value="names">Gaming Name & Identity</option>
+            <option value="avatar">Avatar & Design</option>
+            <option value="stats">Game Stats & Tools</option>
+            <option value="fun">Utility & Fun</option>
+            <option value="community">Community & Social</option>
+          </select>
+          <button class="btn" id="searchBtn">Search</button>
+        </div>
 
-<main id="toolContainer">
-  
-  <!-- Example Built-in Tool Card -->
-  <div class="tool-card" data-category="name">
-    <i class="fas fa-gamepad"></i>
-    <h3>Gaming Name Generator</h3>
-    <p>Generate random and themed gamer tags instantly.</p>
-    <button onclick="openBuiltIn('name-generator')">Open Tool</button>
+        <div id="toolsGrid" class="grid">
+          <!-- Tool cards injected by JS -->
+        </div>
+
+      </div>
+
+      <aside class="sidebar">
+        <div class="card mini">
+          <div class="small-stat">
+            <div>
+              <div style="font-weight:700">Quick Tools</div>
+              <div class="subtitle">Open built-in mini-tools</div>
+            </div>
+            <div style="text-align:right"><button class="btn" id="open-namegen">Name Generator</button></div>
+          </div>
+
+          <div class="small-stat">
+            <div>
+              <div style="font-weight:700">Community</div>
+              <div class="subtitle">Connect & share</div>
+            </div>
+            <div><button class="btn secondary" id="open-chat">Open Chat</button></div>
+          </div>
+
+          <div class="small-stat">
+            <div>
+              <div style="font-weight:700">Tools Links</div>
+              <div class="subtitle">Open integration list</div>
+            </div>
+            <div><button class="btn" id="open-external">Open</button></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700">Built-in Highlights</div>
+              <div class="subtitle">Avatars, Name Generator, Ping & FPS</div>
+            </div>
+            <div class="cursor-sample"><i class="fa-solid fa-gamepad"></i></div>
+          </div>
+          <hr style="opacity:.06;margin:12px 0">
+          <div class="subtitle">Tip: Use the search to quickly find a tool.</div>
+        </div>
+      </aside>
+    </div>
+
+    <section style="margin-top:18px" class="card">
+      <h3 style="margin:0">All Integrations (opens in new tab)</h3>
+      <div class="subtitle" style="margin-top:8px">Preloaded external tool integrations for additional features.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+        <!-- external links rendered by JS -->
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Gaming Tools Mega Hub • Built with ❤️ • Ready for GitHub Pages
+    </footer>
+  </main>
+
+  <!-- Modal for tools -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <h3 id="modalTitle" style="margin:0">Tool</h3>
+          <div id="modalSub" class="subtitle">Tool description</div>
+        </div>
+        <div><button class="btn secondary" id="closeModal">Close</button></div>
+      </div>
+
+      <div id="modalBody" style="margin-top:16px;min-height:240px">
+        <!-- tool UI injected here -->
+      </div>
+    </div>
   </div>
 
-  <!-- Example External Tool Card -->
-  <div class="tool-card" data-category="name">
-    <i class="fas fa-users"></i>
-    <h3>Clan/Team Name Ideas</h3>
-    <p>Find creative clan & esports team name inspiration.</p>
-    <a href="https://fantasynamegenerators.com/" target="_blank" class="btn">Open Tool</a>
-  </div>
+  <script>
+    /* Data for tools */
+    const tools = [
+      {id:'namegen',cat:'names',title:'Gaming Name Generator',desc:'Generate cool gamer names instantly.',icon:'fa-user-astronaut',type:'builtin'},
+      {id:'clangen',cat:'names',title:'Clan/Team Name Generator',desc:'Create team and clan names for your squad.',icon:'fa-users',type:'builtin'},
+      {id:'esportsIdeas',cat:'names',title:'Esports Team Ideas',desc:'Curated esports team name ideas.',icon:'fa-bolt',type:'external',url:'https://www.fantasynamegenerators.com/'},
+      {id:'usernameGen',cat:'names',title:'Streamer Username Generator',desc:'Generate memorable stream names.',icon:'fa-hashtag',type:'builtin'},
+      {id:'gamerTagCheck',cat:'names',title:'Gamer Tag Availability Checker',desc:'Quickly check if a tag *might* be available.',icon:'fa-check',type:'builtin'},
+      {id:'coolfont',cat:'names',title:'Cool Font Name Generator',desc:'Convert name to stylish fonts.',icon:'fa-font',type:'builtin'},
+      {id:'symbolDecor',cat:'names',title:'Name Symbol & Emoji Decorator',desc:'Add symbols and emojis to names.',icon:'fa-star',type:'builtin'},
+      {id:'bioGen',cat:'names',title:'Gamer Bio Generator',desc:'Short bios for your profile.',icon:'fa-circle-info',type:'builtin'},
+      {id:'quoteGen',cat:'fun',title:'Random Gamer Quote',desc:'Get a short gamer quote for your bio.',icon:'fa-quote-right',type:'builtin'},
+      {id:'petName',cat:'names',title:'Pet/Companion Name Generator',desc:'Names for in-game pets & companions.',icon:'fa-dog',type:'builtin'},
 
-  <!-- JS will populate all other cards dynamically -->
+      {id:'avatar',cat:'avatar',title:'Gaming Avatar Creator',desc:'Create a simple cartoon avatar (downloadable).',icon:'fa-face-smile',type:'builtin'},
+      {id:'aiProfile',cat:'avatar',title:'AI Profile Picture Generator',desc:'Placeholder AI-style generator (sample).',icon:'fa-robot',type:'builtin'},
+      {id:'logoMaker',cat:'avatar',title:'Logo Maker for Teams',desc:'Create a simple logo using canvas.',icon:'fa-shield',type:'builtin'},
+      {id:'overlayTemplates',cat:'avatar',title:'Stream Overlay Templates',desc:'Download sample overlays.',icon:'fa-layer-group',type:'external',url:'https://www.canva.com/'},
 
-</main>
+      {id:'fpsPing',cat:'stats',title:'FPS & Ping Test',desc:'Measure approximate FPS and ping (local).',icon:'fa-tachometer-alt',type:'builtin'},
+      {id:'releaseCal',cat:'stats',title:'Game Release Calendar',desc:'Simple calendar of upcoming releases.',icon:'fa-calendar-days',type:'external',url:'https://store.steampowered.com/'},
+      {id:'sysCheck',cat:'stats',title:'System Requirement Checker',desc:'Compare your system (manual input).',icon:'fa-computer',type:'builtin'},
 
-<!-- Built-in Tool Modals -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <span id="closeModal" class="close">&times;</span>
-    <div id="modalBody"></div>
-  </div>
-</div>
+      {id:'memeGen',cat:'fun',title:'Gaming Meme Generator',desc:'Add captions to images (local).',icon:'fa-image',type:'builtin'},
+      {id:'currencyConv',cat:'fun',title:'In-Game Currency Converter',desc:'Convert between common currencies (mock rates).',icon:'fa-coins',type:'builtin'},
+      {id:'clipDL',cat:'fun',title:'Video Clip Downloader',desc:'Opens external downloader tools.',icon:'fa-download',type:'external',url:'https://vd6s.com/en/'},
 
-<footer>
-  <p>© 2025 Gaming Tools Mega Hub | Designed for Gamers by Gamers</p>
-</footer>
+      {id:'communityChat',cat:'community',title:'Global Gaming Chatroom',desc:'A simple local chat (demo).',icon:'fa-comments',type:'builtin'},
+      {id:'newsFeed',cat:'community',title:'Gaming News Feed',desc:'Aggregated links to gaming news.',icon:'fa-newspaper',type:'external',url:'https://www.ign.com/'},
+    ];
 
-<script src="script.js"></script>
+    const externalLinks = [
+      'https://nickfinder.com/', 'https://www.spinxo.com/', 'https://www.namegeneratorfun.com/gaming', 'https://www.gamertagnation.com/', 'https://www.fantasynamegenerators.com/', 'https://www.coolfontsgenerator.com/', 'https://nicksfinder.com/', 'https://lingojam.com/FancyTextGenerator', 'https://www.stylishnameguru.com/', 'https://rumandmonkey.com/v', 'https://pubgnames.com/', 'https://coolsymbol.com/', 'https://nickerly.com/', 'https://generatormix.com/gamertag-generator', 'https://igngenerator.com/', 'https://random-name-generator.com/gamer-name-generator', 'https://www.progametools.com/', 'https://www.gamertagavailability.com/'
+    ];
+
+    /* Render tools */
+    const grid = document.getElementById('toolsGrid');
+    const externalSection = document.querySelector('section.card div[style*="display:flex"]');
+    function renderTools(list){
+      grid.innerHTML='';
+      list.forEach(t=>{
+        const el = document.createElement('div'); el.className='tool-card card';
+        el.dataset.cat = t.cat; el.dataset.title = t.title.toLowerCase();
+        el.innerHTML = `
+          <div class="tool-head">
+            <div class="tool-icon"><i class="fa-solid ${t.icon}"></i></div>
+            <div>
+              <div class="tool-title">${t.title}</div>
+              <div class="tool-desc">${t.desc}</div>
+            </div>
+          </div>
+          <div class="tool-actions">
+            <button class="btn" data-id="${t.id}">Open Tool</button>
+            ${t.type==='external'?`<a class="btn secondary" href="${t.url}" target="_blank" rel="noopener">Open External</a>`:''}
+          </div>`;
+        grid.appendChild(el);
+      });
+    }
+    renderTools(tools);
+
+    // external links list
+    const extWrap = externalSection; externalLinks.forEach(u=>{
+      const a = document.createElement('a'); a.href=u; a.target='_blank'; a.rel='noopener'; a.className='chip'; a.textContent=new URL(u).hostname; extWrap.appendChild(a);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Search & filter */
+    document.getElementById('searchBtn').addEventListener('click', doSearch);
+    document.getElementById('search').addEventListener('keydown', (e)=>{ if(e.key==='Enter') doSearch(); });
+    document.getElementById('category').addEventListener('change', doSearch);
+
+    function doSearch(){
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const cat = document.getElementById('category').value;
+      let filtered = tools.filter(t=> (cat==='all' || t.cat===cat) && (q==='' || (t.title+t.desc).toLowerCase().includes(q)) );
+      renderTools(filtered);
+    }
+
+    // nav buttons filter
+    document.querySelectorAll('.nav-btn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const f = b.dataset.filter || 'all';
+        if(f==='all') renderTools(tools); else renderTools(tools.filter(t=>t.cat===f));
+      });
+    });
+
+    document.getElementById('open-external').addEventListener('click', ()=>{window.open('#','_blank');alert('External tools listed below the page.');});
+    document.getElementById('open-external-list').addEventListener('click', ()=>{window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+
+    // Tool opening
+    document.addEventListener('click', (e)=>{
+      const id = e.target.dataset.id; if(!id) return;
+      const tool = tools.find(t=>t.id===id);
+      if(!tool) return;
+      openTool(tool);
+    });
+
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSub = document.getElementById('modalSub');
+    const modalBody = document.getElementById('modalBody');
+    document.getElementById('closeModal').addEventListener('click', ()=>{modal.classList.remove('show'); modal.setAttribute('aria-hidden','true');});
+
+    function openTool(tool){
+      modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+      modalTitle.textContent = tool.title; modalSub.textContent = tool.desc; modalBody.innerHTML = '';
+
+      // built-in tool handlers
+      if(tool.id === 'namegen') renderNameGen();
+      else if(tool.id === 'clangen') renderClanGen();
+      else if(tool.id === 'usernameGen') renderUsernameGen();
+      else if(tool.id === 'gamerTagCheck') renderTagCheck();
+      else if(tool.id === 'coolfont') renderCoolFont();
+      else if(tool.id === 'symbolDecor') renderSymbolDecor();
+      else if(tool.id === 'bioGen') renderBioGen();
+      else if(tool.id === 'quoteGen') renderQuoteGen();
+      else if(tool.id === 'petName') renderPetGen();
+      else if(tool.id === 'avatar') renderAvatarCreator();
+      else if(tool.id === 'aiProfile') renderAIProfile();
+      else if(tool.id === 'logoMaker') renderLogoMaker();
+      else if(tool.id === 'fpsPing') renderFpsPing();
+      else if(tool.id === 'memeGen') renderMemeGen();
+      else if(tool.id === 'currencyConv') renderCurrency();
+      else if(tool.id === 'communityChat') renderChat();
+      else {
+        modalBody.innerHTML = '<div class="subtitle">This tool opens externally or is not implemented yet.</div>';
+      }
+    }
+
+    /* Utility collections */
+    const adjectives = ['Shadow','Neo','Silent','Iron','Crimson','Rogue','Phantom','Hyper','Glitch','Solar','Lunar','Vortex','Alpha','Omega','Frost','Savage'];
+    const nouns = ['Raven','Blade','Strike','Warden','Reaper','Knight','Vector','Pulse','Storm','Dragon','Phoenix','Wolf','Gunner','Spartan','Viper','Courier'];
+
+    function randomPick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+    /* --- Name Generator --- */
+    function renderNameGen(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <input id="ng-base" placeholder="Enter a word or leave blank" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <button class="btn" id="ng-generate">Generate</button>
+          <button class="btn secondary" id="ng-random">Random</button>
+        </div>
+        <div id="ng-list" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>
+      `;
+      document.getElementById('ng-generate').addEventListener('click', ()=>{
+        const base = document.getElementById('ng-base').value.trim();
+        const results = [];
+        for(let i=0;i<12;i++){ const name = base? `${base}${randomPick(['X','99','_','ix','zr','ek','on','pro'])}${Math.floor(Math.random()*900)}` : `${randomPick(adjectives)}${randomPick(nouns)}${Math.floor(Math.random()*90)}`; results.push(name); }
+        showList('ng-list', results);
+      });
+      document.getElementById('ng-random').addEventListener('click', ()=>{document.getElementById('ng-base').value=''; document.getElementById('ng-generate').click();});
+    }
+    function showList(elid, arr){ const wrap = document.getElementById(elid); wrap.innerHTML=''; arr.forEach(a=>{ const d=document.createElement('div'); d.style.display='flex'; d.style.justifyContent='space-between'; d.style.alignItems='center'; d.style.padding='8px'; d.style.borderRadius='8px'; d.style.background='rgba(255,255,255,0.01)'; d.innerHTML = `<div>${a}</div><div style="display:flex;gap:6px"><button class="btn secondary" data-copy="${a}"><i class="fa-solid fa-copy"></i></button><button class="btn" data-use="${a}">Use</button></div>`; wrap.appendChild(d); });
+      wrap.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click', (e)=>{navigator.clipboard.writeText(b.dataset.copy).then(()=>alert('Copied: '+b.dataset.copy));}));
+      wrap.querySelectorAll('[data-use]').forEach(b=>b.addEventListener('click', ()=>{document.getElementById('ng-base').value = b.dataset.use;}));
+    }
+
+    /* Clan generator */
+    function renderClanGen(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="cg-key" placeholder="Theme (e.g. 'dragons')" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <select id="cg-style" class="select"><option value="modern">Modern</option><option value="mythic">Mythic</option><option value="edgy">Edgy</option></select>
+          <button class="btn" id="cg-gen">Generate</button>
+        </div>
+        <div id="cg-list" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>
+      `;
+      document.getElementById('cg-gen').addEventListener('click', ()=>{
+        const key = document.getElementById('cg-key').value.trim(); const style = document.getElementById('cg-style').value;
+        const res=[];
+        for(let i=0;i<8;i++){
+          const base = key? key.charAt(0).toUpperCase()+key.slice(1): randomPick(nouns);
+          const suffix = style==='mythic'? randomPick(['Legion','Order','Clan','Guard']): style==='edgy'? randomPick(['Reapers','Killers','X']): randomPick(['Squad','Unit','Crew']);
+          res.push(`${base} ${suffix}`);
+        }
+        showList('cg-list', res);
+      });
+    }
+
+    /* Username generator */
+    function renderUsernameGen(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="ug-base" placeholder="Example: shiva" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <button class="btn" id="ug-gen">Generate</button>
+        </div>
+        <div id="ug-list" style="margin-top:12px"></div>
+      `;
+      document.getElementById('ug-gen').addEventListener('click', ()=>{
+        const base = document.getElementById('ug-base').value.trim()||randomPick(adjectives).toLowerCase();
+        const res = [];
+        for(let i=0;i<10;i++) res.push(`${base}${randomPick(['_','x','z','99'])}${Math.floor(Math.random()*999)}`);
+        showList('ug-list', res);
+      });
+    }
+
+    /* Gamer tag availability (simulated) */
+    function renderTagCheck(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="tc-tag" placeholder="Enter desired tag" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <button class="btn" id="tc-check">Check</button>
+        </div>
+        <div id="tc-result" style="margin-top:12px" class="subtitle"></div>
+      `;
+      document.getElementById('tc-check').addEventListener('click', ()=>{
+        const tag = document.getElementById('tc-tag').value.trim(); if(!tag){alert('Type a tag');return}
+        // simulated check using hash
+        let hash = 0; for(let i=0;i<tag.length;i++){hash=((hash<<5)-hash)+tag.charCodeAt(i); hash |=0}
+        const avail = Math.abs(hash)%2===0; const msg = avail? `Looks likely available: try registering ${tag}`: `Might be taken: try variants like ${tag+Math.floor(Math.random()*99)}`;
+        document.getElementById('tc-result').textContent = msg;
+      });
+    }
+
+    /* Cool font generator */
+    const fontMaps = {
+      smallcaps: {'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','q':'ǫ','r':'ʀ','s':'s','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'x','y':'ʏ','z':'ᴢ'}
+    };
+    function applyMap(s,map){return s.split('').map(ch=>{const lo=ch.toLowerCase(); return map[lo]||ch;}).join('');}
+
+    function renderCoolFont(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:center">
+          <input id="cf-base" placeholder="Enter name" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <button class="btn" id="cf-gen">Generate</button>
+        </div>
+        <div id="cf-list" style="margin-top:12px;display:flex;flex-direction:column;gap:8px"></div>
+      `;
+      document.getElementById('cf-gen').addEventListener('click', ()=>{
+        const s = document.getElementById('cf-base').value.trim(); if(!s){alert('Type a name');return}
+        const out = [s, applyMap(s,fontMaps.smallcaps)];
+        const wrap = document.getElementById('cf-list'); wrap.innerHTML=''; out.forEach(o=>{ const d=document.createElement('div'); d.style.display='flex'; d.style.justifyContent='space-between'; d.style.alignItems='center'; d.style.padding='8px'; d.style.borderRadius='8px'; d.style.background='rgba(255,255,255,0.01)'; d.innerHTML = `<div style="font-family:Orbitron">${o}</div><div style="display:flex;gap:6px"><button class="btn secondary" data-copy="${o}"><i class="fa-solid fa-copy"></i></button></div>`; wrap.appendChild(d); });
+      });
+    }
+
+    /* Symbol decorator */
+    const symbols = ['★','✦','✧','☠','♛','☯','✪','☢','❂','⚡','♥','✩','🔥','💀','🎯','☾'];
+    function renderSymbolDecor(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px">
+          <input id="sd-name" placeholder="Enter base name" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)">
+          <button class="btn" id="sd-gen">Decorate</button>
+        </div>
+        <div id="sd-list" style="margin-top:12px"></div>
+      `;
+      document.getElementById('sd-gen').addEventListener('click', ()=>{
+        const n = document.getElementById('sd-name').value.trim(); if(!n){alert('Type name');return}
+        const out=[]; for(let i=0;i<10;i++){ out.push(`${randomPick(symbols)} ${n} ${randomPick(symbols)}`); }
+        showList('sd-list', out);
+      });
+    }
+
+    /* Bio generator */
+    const bioT = [
+      'Competitive gamer • FPS main • Road to top 1%',
+      'Streamer • Coffee-powered • Likes high-risk plays',
+      'Clan leader • Tactician • Always strategizing',
+      'Casual gamer • Achievement hunter • Collector of skins',
+      'Solo queue legend • Support main • Good vibes only'
+    ];
+    function renderBioGen(){
+      modalBody.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><button class="btn" id="bg-gen">Generate Bio</button><button class="btn secondary" id="bg-custom">Edit</button></div><div id="bg-out" style="margin-top:12px"></div>`;
+      document.getElementById('bg-gen').addEventListener('click', ()=>{ document.getElementById('bg-out').innerHTML = `<div style="padding:12px;border-radius:8px;background:rgba(255,255,255,0.01)">${randomPick(bioT)}</div>`});
+      document.getElementById('bg-custom').addEventListener('click', ()=>{ const t=prompt('Type your bio'); if(t) document.getElementById('bg-out').innerHTML = `<div style="padding:12px;border-radius:8px;background:rgba(255,255,255,0.01)">${t}</div>` });
+    }
+
+    /* Random quote */
+    const quotes = ['Glitch the meta, not the game.','Play hard, respawn harder.','Ping low, aim high.','Clutch or kick.','Lag is just drama.'];
+    function renderQuoteGen(){ modalBody.innerHTML = `<div><button class="btn" id="q-gen">Get Quote</button></div><div id="q-out" style="margin-top:12px"></div>`; document.getElementById('q-gen').addEventListener('click', ()=>{ document.getElementById('q-out').innerHTML=`<div class="card">"${randomPick(quotes)}"</div>` }); }
+
+    /* Pet name generator */
+    const petAdjs=['Tiny','Brave','Mighty','Sneaky','Cuddly','Fierce','Sly','Lucky']; const petAnimals=['Paw','Spike','Whisk','Feather','Claw','Tail','Fang'];
+    function renderPetGen(){ modalBody.innerHTML = `<div style="display:flex;gap:8px"><button class="btn" id="pet-gen">Generate Pet Names</button></div><div id="pet-out" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>`; document.getElementById('pet-gen').addEventListener('click', ()=>{ const arr=[]; for(let i=0;i<10;i++) arr.push(`${randomPick(petAdjs)} ${randomPick(petAnimals)}${Math.floor(Math.random()*99)}`); showList('pet-out', arr); }); }
+
+    /* Avatar creator - simple canvas cartoon */
+    function renderAvatarCreator(){
+      modalBody.innerHTML = `
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <label class="chip">Gender: <select id="av-g"><option>Neutral</option><option>Male</option><option>Female</option></select></label>
+          <label class="chip">Style: <select id="av-s"><option>Futuristic</option><option>Classic</option><option>Mask</option></select></label>
+          <button class="btn" id="av-gen">Generate Avatar</button>
+          <button class="btn secondary" id="av-download">Download PNG</button>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+          <canvas id="av-c" width="360" height="360" style="border-radius:10px;background:linear-gradient(180deg,#07101a,#081322)"></canvas>
+          <div class="subtitle">Preview • Simple cartoon avatar generator</div>
+        </div>
+      `;
+      const canvas = document.getElementById('av-c'); const ctx = canvas.getContext('2d');
+      function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); ctx.save(); // background
+        // face
+        const skin = ['#f4c7a3','#ffe0b3','#d8b38a','#c4916b']; const col = randomPick(skin); ctx.fillStyle=col; ctx.beginPath(); ctx.ellipse(180,150,80,100,0,0,Math.PI*2); ctx.fill();
+        // hair
+        ctx.fillStyle = Math.random()>0.5? '#111' : '#2b2b8f'; ctx.beginPath(); ctx.ellipse(180,110,90,50,0,Math.PI,2*Math.PI); ctx.fill();
+        // eyes
+        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.ellipse(155,150,12,8,0,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(205,150,12,8,0,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle='#000'; ctx.beginPath(); ctx.arc(155,150,5,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(205,150,5,0,Math.PI*2); ctx.fill();
+        // mouth
+        ctx.strokeStyle='#4b2f2f'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(180,190,18,0,Math.PI); ctx.stroke();
+        // accessory
+        if(Math.random()>0.6){ ctx.fillStyle='rgba(0,240,255,0.12)'; ctx.fillRect(120,80,120,20); }
+        ctx.restore();
+      }
+      document.getElementById('av-gen').addEventListener('click', draw);
+      document.getElementById('av-download').addEventListener('click', ()=>{ const url = canvas.toDataURL('image/png'); const a=document.createElement('a'); a.href=url; a.download='avatar.png'; a.click(); });
+      draw();
+    }
+
+    /* AI Profile (placeholder) */
+    function renderAIProfile(){ modalBody.innerHTML = `<div class="subtitle">AI Profile Generator (client-side placeholder). Upload a photo or enter keywords to produce variations. (To create real AI avatars, integrate an AI image API.)</div><div style="margin-top:12px;display:flex;gap:8px"><input id="ai-kw" placeholder="Keywords e.g. cyberpunk warrior" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)"><button class="btn" id="ai-go">Generate</button></div><div id="ai-out" style="margin-top:12px"></div>`; document.getElementById('ai-go').addEventListener('click', ()=>{ const k=document.getElementById('ai-kw').value||'avatar'; document.getElementById('ai-out').innerHTML = `<div class="card">Placeholder images for "${k}" — integrate an AI API for production.</div>` }); }
+
+    /* Logo maker simple */
+    function renderLogoMaker(){ modalBody.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><input id="lm-text" placeholder="Team name" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)"><select id="lm-symbol" class="select"><option>⚔</option><option>⚡</option><option>☠</option><option>★</option></select><button class="btn" id="lm-go">Create Logo</button><button class="btn secondary" id="lm-download">Download</button></div><canvas id="lm-c" width="600" height="200" style="margin-top:12px;border-radius:8px;background:linear-gradient(90deg,#06121a,#081428)"></canvas>`;
+      const c = document.getElementById('lm-c'); const ctx=c.getContext('2d'); document.getElementById('lm-go').addEventListener('click', ()=>{
+        const t = document.getElementById('lm-text').value||'TEAM'; const s = document.getElementById('lm-symbol').value;
+        ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle='#07101a'; ctx.fillRect(0,0,c.width,c.height);
+        // symbol
+        ctx.font='80px Orbitron'; ctx.fillStyle='rgba(0,240,255,0.9)'; ctx.fillText(s,40,130);
+        // text
+        ctx.font='48px Orbitron'; ctx.fillStyle='white'; ctx.fillText(t,140,125);
+      });
+      document.getElementById('lm-download').addEventListener('click', ()=>{ const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='logo.png'; a.click(); });
+    }
+
+    /* FPS & Ping tool */
+    function renderFpsPing(){
+      modalBody.innerHTML = `<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn" id="fp-fps">Measure FPS (1s)</button><button class="btn" id="fp-ping">Measure Ping (fetch same page)</button></div><div id="fp-out" style="margin-top:12px"></div>`;
+      document.getElementById('fp-fps').addEventListener('click', ()=>{
+        const start = performance.now(); let frames=0; function loop(t){ frames++; if(performance.now()-start<1000) requestAnimationFrame(loop); else{ const fps = Math.round(frames/( (performance.now()-start)/1000 )); document.getElementById('fp-out').innerHTML = `<div class="card">Estimated FPS: ${fps}</div>`;} } requestAnimationFrame(loop);
+      });
+      document.getElementById('fp-ping').addEventListener('click', async ()=>{
+        const t0 = performance.now(); try{ await fetch(location.href+'?ping='+Date.now(),{cache:'no-store'}); const t1 = performance.now(); document.getElementById('fp-out').innerHTML = `<div class="card">Ping (approx): ${Math.round(t1-t0)} ms</div>`; }catch(e){ document.getElementById('fp-out').innerHTML = `<div class="card">Ping test failed (CORS / offline). Try on GitHub Pages. Error: ${e.message}</div>`; }
+      });
+    }
+
+    /* Meme generator - simple caption overlay */
+    function renderMemeGen(){
+      modalBody.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><input id="m-text" placeholder="Top text | Bottom text (use | to separate)" style="flex:1;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)\"><input type="file" id="m-file" accept="image/*"><button class="btn" id="m-go">Make Meme</button></div><canvas id="m-c" width="640" height="360" style="margin-top:12px;background:#111;border-radius:8px"></canvas><div style="margin-top:8px"><button class="btn" id="m-download">Download</button></div>`;
+      const canvas = document.getElementById('m-c'); const ctx=canvas.getContext('2d'); let img = null;
+      document.getElementById('m-file').addEventListener('change', (e)=>{ const f=e.target.files[0]; if(!f) return; const url=URL.createObjectURL(f); img=new Image(); img.onload=()=>{ ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0,canvas.width,canvas.height); }; img.src=url; });
+      document.getElementById('m-go').addEventListener('click', ()=>{
+        if(!img){alert('Upload an image first');return}
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        const t = document.getElementById('m-text').value.split('|'); ctx.fillStyle='white'; ctx.strokeStyle='black'; ctx.lineWidth=6; ctx.textAlign='center'; ctx.font='36px Orbitron'; if(t[0]){ ctx.strokeText(t[0].trim(), canvas.width/2, 50); ctx.fillText(t[0].trim(), canvas.width/2, 50);} if(t[1]){ ctx.strokeText(t[1].trim(), canvas.width/2, canvas.height-20); ctx.fillText(t[1].trim(), canvas.width/2, canvas.height-20);} });
+      document.getElementById('m-download').addEventListener('click', ()=>{ const a=document.createElement('a'); a.href=canvas.toDataURL('image/png'); a.download='meme.png'; a.click(); });
+    }
+
+    /* Currency converter (mock) */
+    function renderCurrency(){ modalBody.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><input id="cc-amt" type="number" placeholder="Amount" style="padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)"><select id="cc-from" class="select"><option>V-Bucks</option><option>Robux</option><option>Coins</option></select><select id="cc-to" class="select"><option>USD</option><option>INR</option><option>EUR</option></select><button class="btn" id="cc-go">Convert</button></div><div id="cc-out" style="margin-top:12px"></div>`; document.getElementById('cc-go').addEventListener('click', ()=>{ const amt=Number(document.getElementById('cc-amt').value)||1; const rate = 0.008; const to=document.getElementById('cc-to').value; document.getElementById('cc-out').innerHTML=`<div class="card">${amt} => ${ (amt*rate).toFixed(2)} ${to} (mock rate)</div>`; }); }
+
+    /* Simple community chat (local only) */
+    function renderChat(){ modalBody.innerHTML = `<div style="display:flex;gap:8px;align-items:center"><input id="ch-name" placeholder="Nick" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)"><input id="ch-msg" placeholder="Message" style="flex:1;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04)"><button class="btn" id="ch-send">Send</button></div><div id="ch-box" style="margin-top:12px;max-height:200px;overflow:auto;background:rgba(255,255,255,0.01);padding:8px;border-radius:8px"></div>`;
+      const box = document.getElementById('ch-box'); const msgs = []; document.getElementById('ch-send').addEventListener('click', ()=>{ const n=document.getElementById('ch-name').value||'Guest'; const m=document.getElementById('ch-msg').value||''; if(!m) return; msgs.push({n,m}); box.innerHTML = msgs.map(x=>`<div style="padding:6px;border-bottom:1px solid rgba(255,255,255,0.02)"><strong>${x.n}:</strong> ${x.m}</div>`).join(''); document.getElementById('ch-msg').value=''; box.scrollTop=box.scrollHeight; });
+    }
+
+    // quick open buttons
+    document.getElementById('open-namegen').addEventListener('click', ()=>openTool(tools.find(t=>t.id==='namegen')));
+    document.getElementById('open-chat').addEventListener('click', ()=>openTool(tools.find(t=>t.id==='communityChat')));
+
+    // close modal on outside click
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) { modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } });
+
+    // accessibility: escape to close
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); } });
+
+    // small polyfill for Orbitron font usage in canvas
+    // done
+
+    console.log('Gaming Tools Mega Hub loaded');
+  </script>
 </body>
 </html>
